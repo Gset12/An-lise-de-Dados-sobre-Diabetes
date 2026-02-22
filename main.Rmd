@@ -1,0 +1,567 @@
+
+```{r}
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(hnp)
+library(pROC)
+```
+
+https://www.kaggle.com/datasets/akshaydattatraykhare/diabetes-dataset
+
+```{r}
+df = read.csv("diabetes.csv")
+df$Outcome = as.factor(df$Outcome)
+df$classe = factor(df$Outcome,
+                     levels = c(0,1),
+                     labels = c("Não diabético", "Diabético"))
+df
+```
+
+## Pregnancies
+
+```{r}
+
+df %>%
+  group_by(Outcome) %>%
+  summarise(
+    across(
+      c(Pregnancies),
+      list(
+        media = ~mean(.x, na.rm = TRUE),
+        dp = ~sd(.x, na.rm = TRUE),
+        cv = ~sd(.x, na.rm = TRUE) / mean(.x, na.rm = TRUE) * 100,
+        mediana = ~median(.x, na.rm = TRUE),
+        min = ~min(.x, na.rm = TRUE),
+        max = ~max(.x, na.rm = TRUE)
+      ),
+      .names = "{.col}_{.fn}"
+    )
+  )
+```
+
+```{r}
+ggplot(df, aes(x = Pregnancies, fill = classe)) +
+  geom_density(alpha = 0.4) +
+  labs(
+    title = "Densidade de Gestações por Presença de Diabetes",
+    x = "Número de gestações",
+    y = "Densidade",
+    fill = "Grupo"
+  ) +
+  theme_minimal()
+```
+
+```{r}
+ggplot(df, aes(x = Outcome, y = Pregnancies, fill = classe)) +
+  geom_boxplot(alpha = 0.6) +
+  labs(
+    title = "Boxplot de Gestações por Presença de Diabetes",
+    x = "Grupo",
+    y = "Número de gestações"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+## Glucose
+
+```{r}
+
+df %>%
+  group_by(Outcome) %>%
+  summarise(
+    across(
+      c(Glucose),
+      list(
+        media = ~mean(.x, na.rm = TRUE),
+        dp = ~sd(.x, na.rm = TRUE),
+        cv = ~sd(.x, na.rm = TRUE) / mean(.x, na.rm = TRUE) * 100,
+        mediana = ~median(.x, na.rm = TRUE),
+        min = ~min(.x, na.rm = TRUE),
+        max = ~max(.x, na.rm = TRUE)
+      ),
+      .names = "{.col}_{.fn}"
+    )
+  )
+```
+
+```{r}
+ggplot(df, aes(x = Glucose, fill = classe)) +
+  geom_density(alpha = 0.4) +
+  labs(
+    title = "Densidade do Nível de Glicose por Presença de Diabetes",
+    x = "Nível de Glicose",
+    y = "Densidade",
+    fill = "Grupo"
+  ) +
+  theme_minimal()
+```
+
+```{r}
+ggplot(df, aes(x = classe, y = Glucose, fill = classe)) +
+  geom_boxplot(alpha = 0.6) +
+  labs(
+    title = "Boxplot do Nível de Glicose por Presença de Diabetes",
+    x = "Grupo",
+    y = "Nível de Glicose"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+## BloodPreasure
+
+```{r}
+
+df %>%
+  group_by(classe) %>%
+  summarise(
+    across(
+      c(BloodPressure),
+      list(
+        media = ~mean(.x, na.rm = TRUE),
+        dp = ~sd(.x, na.rm = TRUE),
+        cv = ~sd(.x, na.rm = TRUE) / mean(.x, na.rm = TRUE) * 100,
+        mediana = ~median(.x, na.rm = TRUE),
+        min = ~min(.x, na.rm = TRUE),
+        max = ~max(.x, na.rm = TRUE)
+      ),
+      .names = "{.col}_{.fn}"
+    )
+  )
+```
+
+```{r}
+ggplot(df, aes(x = BloodPressure, fill = classe)) +
+  geom_density(alpha = 0.4) +
+  labs(
+    title = "Densidade da Pressão Sanguínea por Presença de Diabetes",
+    x = "Pressão Sanguínea",
+    y = "Densidade",
+    fill = "Grupo"
+  ) +
+  theme_minimal()
+```
+
+```{r}
+ggplot(df, aes(x = classe, y = BloodPressure , fill = classe)) +
+  geom_boxplot(alpha = 0.6) +
+  labs(
+    title = "Boxplot da Pressão Sanguínea por Presença de Diabetes",
+    x = "Grupo",
+    y = "Pressão Sanguínea"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+## SkinThickness
+
+```{r}
+
+df %>%
+  group_by(classe) %>%
+  summarise(
+    across(
+      c(SkinThickness),
+      list(
+        media = ~mean(.x, na.rm = TRUE),
+        dp = ~sd(.x, na.rm = TRUE),
+        cv = ~sd(.x, na.rm = TRUE) / mean(.x, na.rm = TRUE) * 100,
+        mediana = ~median(.x, na.rm = TRUE),
+        min = ~min(.x, na.rm = TRUE),
+        max = ~max(.x, na.rm = TRUE)
+      ),
+      .names = "{.col}_{.fn}"
+    )
+  )
+```
+
+```{r}
+ggplot(df, aes(x = SkinThickness, fill = classe)) +
+  geom_density(alpha = 0.4) +
+  labs(
+    title = "Densidade da Espessura da Pele por Presença de Diabetes",
+    x = "Espessura da Pele",
+    y = "Densidade",
+    fill = "Grupo"
+  ) +
+  theme_minimal()
+```
+
+```{r}
+ggplot(df, aes(x = classe, y =SkinThickness, fill = classe)) +
+  geom_boxplot(alpha = 0.6) +
+  labs(
+    title = "Boxplot da Espessura da Pele por Presença de Diabetes",
+    x = "Grupo",
+    y = "Espessura da Pele"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+## Insulin
+
+```{r}
+
+df %>%
+  group_by(classe) %>%
+  summarise(
+    across(
+      c(Insulin),
+      list(
+        media = ~mean(.x, na.rm = TRUE),
+        dp = ~sd(.x, na.rm = TRUE),
+        cv = ~sd(.x, na.rm = TRUE) / mean(.x, na.rm = TRUE) * 100,
+        mediana = ~median(.x, na.rm = TRUE),
+        min = ~min(.x, na.rm = TRUE),
+        max = ~max(.x, na.rm = TRUE)
+      ),
+      .names = "{.col}_{.fn}"
+    )
+  )
+```
+
+```{r}
+ggplot(df, aes(x = Insulin, fill = classe)) +
+  geom_density(alpha = 0.4) +
+  labs(
+    title = "Densidade do Nível de Insulina por Presença de Diabetes",
+    x = "Nível de Insulina",
+    y = "Densidade",
+    fill = "Grupo"
+  ) +
+  theme_minimal()
+```
+
+```{r}
+ggplot(df, aes(x = classe, y = Insulin, fill = classe)) +
+  geom_boxplot(alpha = 0.6) +
+  labs(
+    title = "Boxplot do Nível de Insulina por Presença de Diabetes",
+    x = "Grupo",
+    y = "Nível de Insulina"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+## BMI
+
+```{r}
+
+df %>%
+  group_by(classe) %>%
+  summarise(
+    across(
+      c(BMI),
+      list(
+        media = ~mean(.x, na.rm = TRUE),
+        dp = ~sd(.x, na.rm = TRUE),
+        cv = ~sd(.x, na.rm = TRUE) / mean(.x, na.rm = TRUE) * 100,
+        mediana = ~median(.x, na.rm = TRUE),
+        min = ~min(.x, na.rm = TRUE),
+        max = ~max(.x, na.rm = TRUE)
+      ),
+      .names = "{.col}_{.fn}"
+    )
+  )
+```
+
+```{r}
+ggplot(df, aes(x = BMI, fill = classe)) +
+  geom_density(alpha = 0.4) +
+  labs(
+    title = "Densidade do IMC por Presença de Diabetes",
+    x = "IMC",
+    y = "Densidade",
+    fill = "Grupo"
+  ) +
+  theme_minimal()
+```
+
+```{r}
+ggplot(df, aes(x = classe, y = BMI, fill = classe)) +
+  geom_boxplot(alpha = 0.6) +
+  labs(
+    title = "Boxplot do IMC por Presença de Diabetes",
+    x = "Grupo",
+    y = "IMC"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+## DiabetesPF
+
+```{r}
+
+df %>%
+  group_by(classe) %>%
+  summarise(
+    across(
+      c(DiabetesPedigreeFunction),
+      list(
+        media = ~mean(.x, na.rm = TRUE),
+        dp = ~sd(.x, na.rm = TRUE),
+        cv = ~sd(.x, na.rm = TRUE) / mean(.x, na.rm = TRUE) * 100,
+        mediana = ~median(.x, na.rm = TRUE),
+        min = ~min(.x, na.rm = TRUE),
+        max = ~max(.x, na.rm = TRUE)
+      ),
+      .names = "{.col}_{.fn}"
+    )
+  )
+```
+
+```{r}
+ggplot(df, aes(x = DiabetesPedigreeFunction, fill = classe)) +
+  geom_density(alpha = 0.4) +
+  labs(
+    title = "Densidade do Nível de Diabetes por Presença de Diabetes",
+    x = "Nível de Diabetes",
+    y = "Densidade",
+    fill = "Grupo"
+  ) +
+  theme_minimal()
+```
+
+```{r}
+ggplot(df, aes(x = classe, y = DiabetesPedigreeFunction, fill = classe)) +
+  geom_boxplot(alpha = 0.6) +
+  labs(
+    title = "Boxplot do Nível de Diabetes por Presença de Diabetes",
+    x = "Grupo",
+    y = "Nível de Diabetes"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+## Age
+
+```{r}
+
+df %>%
+  group_by(classe) %>%
+  summarise(
+    across(
+      c(Age),
+      list(
+        media = ~mean(.x, na.rm = TRUE),
+        dp = ~sd(.x, na.rm = TRUE),
+        cv = ~sd(.x, na.rm = TRUE) / mean(.x, na.rm = TRUE) * 100,
+        mediana = ~median(.x, na.rm = TRUE),
+        min = ~min(.x, na.rm = TRUE),
+        max = ~max(.x, na.rm = TRUE)
+      ),
+      .names = "{.col}_{.fn}"
+    )
+  )
+```
+
+```{r}
+ggplot(df, aes(x = Age, fill = classe)) +
+  geom_density(alpha = 0.4) +
+  labs(
+    title = "Densidade da Idade por Presença de Diabetes",
+    x = "Idade",
+    y = "Densidade",
+    fill = "Grupo"
+  ) +
+  theme_minimal()
+```
+
+```{r}
+ggplot(df, aes(x = classe, y = Age, fill = classe)) +
+  geom_boxplot(alpha = 0.6) +
+  labs(
+    title = "Boxplot da Idade por Presença de Diabetes",
+    x = "Grupo",
+    y = "Idade"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+## Modelo
+
+```{r}
+m_null <- glm(Outcome ~ 1, 
+        data = df, 
+        family = binomial(link = "logit"))
+
+m_full = glm(Outcome ~ Pregnancies + Glucose + 
+          BloodPressure + SkinThickness + Insulin + BMI +
+          DiabetesPedigreeFunction + Age, 
+        data = df, 
+        family = binomial(link = "logit"))
+
+m_final = step(m_full,
+     scope = list(lower = m_null,
+                  upper = m_full),
+     direction = "both")
+```
+
+De acordo 
+
+```{r}
+hnp(m_final, pch = 19,
+    main = "Gráfico de Probabilidade Meio Normal",
+    ylab = "Resíduo Componente do Desvio",
+    xlab = "HN(0,1)")
+```
+
+```{r}
+X = model.matrix(m_final)
+W = diag(m_final$weights)
+H = sqrt(W) %*% X %*% solve(t(X) %*% W %*% X) %*% t(X) %*% sqrt(W)
+h = diag(H)
+```
+
+```{r}
+id = 1:nrow(df)
+plot(id, h, pch = 19,
+     xlab = "Índice da Observação",
+     ylab = "Medida h")
+```
+
+```{r}
+rp = resid(m_final, type= "pearson")
+ts = rp/sqrt(1- h)
+```
+
+```{r}
+cook = (ts^2) * (h/(1 - h))
+
+id = 1:nrow(df)
+plot(id, cook, pch = 19,
+     xlab = "Índice da Observação",
+     ylab = "Medida")
+```
+
+
+```{r}
+rd = resid(m_final, type= "deviance")
+td = rd*sqrt(1/(1-h))
+```
+
+```{r}
+plot(id, td, pch = 19, ylim = c(-3.1, 3.1),
+     xlab = "Índice da Observação",
+     ylab = "Resíduo Componente do Desvio")
+abline(h = 3, col = "red", lty = 2)
+abline(h = 0, lty = 2)
+abline(h = -3, col = "red", lty = 2)
+```
+
+```{r}
+plot(m_final$fitted.values, td, pch = 19, ylim = c(-3.1, 3.1),
+     xlab = "Probabilidades Ajustadas",
+     ylab = "Resíduo Componente do Desvio")
+abline(h = 3, col = "red", lty = 2)
+abline(h = 0, lty = 2)
+abline(h = -3, col = "red", lty = 2)
+```
+
+## Inferencia
+
+```{r}
+summary(m_final)
+```
+
+```{r}
+prob <- predict(m_final, type = "response")
+roc_obj <- roc(df$Outcome, prob)
+
+best_coords <- coords(roc_obj,
+                      "best",
+                      ret = c("threshold",
+                              "sensitivity",
+                              "specificity"),
+                      transpose = FALSE)
+
+cutoff <- as.numeric(best_coords["threshold"])
+sens   <- as.numeric(best_coords["sensitivity"])
+spec   <- as.numeric(best_coords["specificity"])
+
+fpr <- 1 - spec
+
+```
+
+```{r}
+roc_df <- data.frame(
+  TPR = roc_obj$sensitivities,
+  FPR = 1 - roc_obj$specificities
+)
+
+cutoff_df <- data.frame(
+  FPR = fpr,
+  TPR = sens
+)
+
+ggplot(roc_df, aes(x = FPR, y = TPR)) +
+  geom_line(linewidth = 1.2, color = "blue") +
+  geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
+  geom_point(data = cutoff_df,
+             aes(x = FPR, y = TPR),
+             color = "red",
+             size = 3) +
+  annotate("text",
+           x = fpr,
+           y = sens,
+           label = paste0("Cutoff = ",
+                          round(cutoff, 3)),
+           vjust = -1,
+           color = "red") +
+  labs(title = "Curva ROC",
+       subtitle = paste0("AUC = ",
+                         round(as.numeric(auc(roc_obj)), 3)),
+       x = "Proporção de Falso Positivo",
+       y = "Proporção de Verdadeiro Positivo") +
+  theme_minimal()
+
+```
+
+```{r}
+classe_predita <- ifelse(prob >= cutoff, 1, 0)
+tabela <- table(Predito = classe_predita,
+                Observado = df$Outcome)
+VP <- tabela["1","1"]
+VN <- tabela["0","0"]
+FP <- tabela["1","0"]
+FN <- tabela["0","1"]
+
+n <- sum(tabela)
+ACC  <- (VP + VN) / n
+SENS <- VP / (VP + FN)
+ESPEC <- VN / (VN + FP)
+FPR  <- 1 - ESPEC
+FNR  <- 1 - SENS
+
+resultado <- data.frame(
+  Metrica = c("Acuracia",
+              "Sensibilidade",
+              "Especificidade",
+              "Falso Positivo",
+              "Falso Negativo"),
+  Valor = c(ACC, SENS, ESPEC, FPR, FNR)
+)
+
+resultado
+```
+
+
+
+
+
+
+
+
+
+
+
+
+

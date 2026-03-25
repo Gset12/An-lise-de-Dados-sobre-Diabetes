@@ -63,7 +63,7 @@ As análises serão realizadas utilizando:
 ```
 ├── dados/ # Base de dados
 ├── scripts/ # Scripts em R
-├── resultados/ # Resultados, gráficos e tabelas
+├── resultados/ # Relatório com resultados, gráficos e tabelas
 ├── render.R # Script para gerar o relatório automaticamente
 └── README.md # Descrição do projeto
 ```

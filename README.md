@@ -54,9 +54,9 @@ As análises serão realizadas utilizando:
 
 ```
 ├── dados/ # Base de dados
-├── scripts/ # Scripts em R (inclui o main.Rmd)
+├── scripts/ # Scripts em R
 ├── resultados/ # Resultados, gráficos e tabelas
-├── render.R # Script para gerar os relatórios automaticamente
+├── render.R # Script para gerar o relatório automaticamente
 └── README.md # Descrição do projeto
 ```
 

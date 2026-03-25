@@ -53,10 +53,16 @@ As análises serão realizadas utilizando:
 ## 📌 Estrutura do Projeto
 
 ```
-├── dados/        # Base de dados
-├── scripts/      # Scripts em R
-├── resultados/   # Resultados, gráficos e tabelas
-└── README.md     # Descrição do projeto
+├── dados/ # Base de dados
+├── scripts/ # Scripts em R (inclui o main.Rmd)
+├── resultados/ # Resultados, gráficos e tabelas
+├── render.R # Script para gerar os relatórios automaticamente
+└── README.md # Descrição do projeto
+```
+
+Para gerar o relatório, basta executar o seguinte código no Console do R:
+```{r}
+source("render.R")
 ```
 
 ---

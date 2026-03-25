@@ -13,7 +13,7 @@ O objetivo original desse conjunto de dados é prever, de forma diagnóstica, a 
 
 - Todos os pacientes são **mulheres**
 - Idade mínima de **21 anos**
-- Pertencentes à população **Pima Indian**
+- Indivíduos de ascendência indígena da etnia **Pima**
 - O conjunto contém as seguintes variáveis:
   
   - **Pregnancies**: Número de gestações da paciente  

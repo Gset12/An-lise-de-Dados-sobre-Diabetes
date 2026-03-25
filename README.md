@@ -15,6 +15,7 @@ O objetivo original desse conjunto de dados é prever, de forma diagnóstica, a 
 - Idade mínima de **21 anos**
 - Pertencentes à população **Pima Indian**
 - O conjunto contém as seguintes variáveis:
+  
   - **Pregnancies**: Número de gestações da paciente  
   - **Glucose**: Nível de glicose no sangue  
   - **BloodPressure**: Pressão arterial  

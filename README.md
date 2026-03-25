@@ -68,7 +68,7 @@ As análises serão realizadas utilizando:
 └── README.md # Descrição do projeto
 ```
 
-Para gerar o relatório, basta executar o seguinte código no Console do R:
+Para gerar o relatório .pdf, basta executar o seguinte código no Console do R:
 ```{r}
 source("render.R")
 ```

@@ -53,8 +53,11 @@ As análises serão realizadas utilizando:
 ## 📌 Estrutura do Projeto
 
 ├── dados/ # Base de dados
+
 ├── scripts/ # Scripts em R
+
 ├── resultados/ # Resultados, gráficos e tabelas
+
 ├── README.md # Descrição do projeto
 
 ---

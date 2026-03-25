@@ -13,18 +13,10 @@ O objetivo original desse conjunto de dados é prever, de forma diagnóstica, a 
 
 - Todos os pacientes são **mulheres**
 - Idade mínima de **21 anos**
-- Indivíduos de ascendência indígena da etnia **Pima**
-- O conjunto contém as seguintes variáveis:
-  
-  - **Pregnancies**: Número de gestações da paciente  
-  - **Glucose**: Nível de glicose no sangue  
-  - **BloodPressure**: Pressão arterial  
-  - **SkinThickness**: Espessura da dobra cutânea  
-  - **Insulin**: Nível de insulina no sangue  
-  - **BMI** (*Body Mass Index*): Índice de massa corporal  
-  - **DiabetesPedigreeFunction**: Indicador de predisposição genética ao diabetes  
-  - **Age**: Idade da paciente  
-  - **Outcome**: Variável resposta (1 = presença de diabetes, 0 = ausência)
+- Pertencentes à população **Pima Indian**
+- O conjunto contém:
+  - Variáveis independentes (preditoras): medidas médicas
+  - Variável dependente: **Outcome** (presença ou ausência de diabetes)
 
 ---
 
@@ -63,12 +55,12 @@ As análises serão realizadas utilizando:
 ```
 ├── dados/ # Base de dados
 ├── scripts/ # Scripts em R
-├── resultados/ # Relatório com resultados, gráficos e tabelas
+├── resultados/ # Resultados, gráficos e tabelas
 ├── render.R # Script para gerar o relatório automaticamente
 └── README.md # Descrição do projeto
 ```
 
-Para gerar o relatório .pdf, basta executar o seguinte código no Console do R:
+Para gerar o relatório, basta executar o seguinte código no Console do R:
 ```{r}
 source("render.R")
 ```
